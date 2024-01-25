@@ -1,8 +1,8 @@
 import numpy as np
 
 def get_points(maxr,maxc,no_of_points,blim):
-    x_cords = np.random.randint(0,maxr,no_of_points)
-    y_cords = np.random.randint(0,maxc,no_of_points)
+    x_cords = np.random.randint(1,maxr,no_of_points)
+    y_cords = np.random.randint(1,maxc,no_of_points)
     b_vals = np.random.randint(1,blim,no_of_points)
     return x_cords,y_cords,b_vals
 

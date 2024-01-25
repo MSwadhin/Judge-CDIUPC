@@ -82,7 +82,7 @@ LL  my_rand(LL l, LL r) {
 }
 //-------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------
-
+const int mx = 200005;
 
 struct Point{
     int r,c,b;
@@ -92,66 +92,74 @@ struct Point{
     }
 };
 
-
-bool cmp(const Point &p, const Point &q){
-    if( p.r==q.r ){
-        return p.c < q.c;
-    }
-    return p.r < q.r;
-}
-
-bool sorted(vector<Point> arr){
-    int n = (int)arr.size();
-    for(int i=1;i<n;i++){
-        if( arr[i].r < arr[i-1].r )return false;
-        if( arr[i].c < arr[i-1].c )return false;
-    }
-    return true;
-}
-
 vector<Point> points;
+const int maxval = 200000;
+
+int total;
 
 void solve(){
     int R,C,N;cin>>R>>C>>N;
     points.clear();
     points.resize(N);
+    if( R > maxval or C > maxval or R < 1 or C < 1){
+        cerr<<"R or C is invalid "<<R<<"  "<<C<<"\n";
+        assert(0);
+    }
+    set<pii> st;
+    map<pii,int> mp;
     FOR(i,N){
         cin>>points[i].r;
         cin>>points[i].c;
         cin>>points[i].b;
-    }
 
-    sort(points.begin(),points.end(),cmp);
-    long long ans = 0;
-    vector<Point> cur_points;
-    for(int mask = 1;mask < (1<<N); mask++){
-        cur_points.clear();
-        long long cur_ans = 0;
-        for(int i=0;i<N;i++){
-            if( mask&(1<<i) ){
-                cur_ans += points[i].b;
-                cur_points.pb(points[i]);
-            }
+        mp[ pii(points[i].r,points[i].c) ]++;
+        if( st.find( {points[i].r,points[i].c} ) != st.end() ){
+            deb(points[i].r);deb(points[i].c);deb(R);deb(C);
+
+            deb(mp[ pii(points[i].r,points[i].c) ]);
+            dnl;
         }
-        if(sorted(cur_points)){
-            ans = max(ans,cur_ans);
+
+
+        st.insert({points[i].r,points[i].c});
+
+
+        if( points[i].r > R or points[i].c > C or points[i].r < 1 or points[i].c < 1 ){
+            deb(R);deb(C);dnl;
+            cerr<<"invalid point"<<" "<<points[i].r<<" "<<points[i].c<<endl;
+            assert(0);
+        }
+        if( points[i].b > 1e9 ){
+            cerr<<"invalid b "<<points[i].b<<endl;
+            assert(0);
         }
     }
-    cout<<ans<<endl;
+    total += N;
+    if( (int)st.size() != N ){
+        cerr<<"Points are not unique"<<endl;
+        assert(0);
+    }
 }
 
 
 
 int main(){
-    READ("data/inputs/input0.txt");
-    WRITE("data/output_brute/output0.txt");
-    ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
+    READ("data/inputs/input73.txt");
+//    WRITE("data/outputs/output1.txt");
+//    ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     int t;
     cin>>t;
+    total = 0;
     while(t--){
-        cerr<<t<<"\n";
+//        cerr<<t<<"\n";
         solve();
+    }
+    if(total > maxval){
+        cerr<<"sum of N exceeds 2e5 "<<total<<endl;
+        assert(0);
     }
     return 0;
 }
+
+
 

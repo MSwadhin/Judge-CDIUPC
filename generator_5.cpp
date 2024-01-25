@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-#define endl        "\n"
+//#define endl        "\n"
 #define LL          long long
 #define READ(x)     freopen(x,"r",stdin)
 #define WRITE(x)    freopen(x,"w",stdout)
@@ -82,76 +82,62 @@ LL  my_rand(LL l, LL r) {
 }
 //-------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------
+const int mx = 200005;
 
-
-struct Point{
-    int r,c,b;
-    Point(){}
-    Point(int x,int y,int z){
-        r=x,c=y,b=z;
+void prin(int r,int c){
+    cout<<r<<" "<<c<<" "<<r*c<<endl;
+    vector< vector<int> > arr;
+    for(int i=1;i<=r;i++){
+        for(int j=1;j<=c;j++){
+            int b = my_rand(1,1e9);
+            int c = my_rand(1,b);
+            int d = my_rand(1,c);
+            arr.pb({i,j,d});
+        }
     }
-};
+    random_shuffle(arr.begin(),arr.end());
 
-
-bool cmp(const Point &p, const Point &q){
-    if( p.r==q.r ){
-        return p.c < q.c;
+    for(auto x:arr){
+        cout<<x[0]<<" "<<x[1]<<" "<<x[2]<<endl;
     }
-    return p.r < q.r;
 }
-
-bool sorted(vector<Point> arr){
-    int n = (int)arr.size();
-    for(int i=1;i<n;i++){
-        if( arr[i].r < arr[i-1].r )return false;
-        if( arr[i].c < arr[i-1].c )return false;
-    }
-    return true;
-}
-
-vector<Point> points;
 
 void solve(){
-    int R,C,N;cin>>R>>C>>N;
-    points.clear();
-    points.resize(N);
-    FOR(i,N){
-        cin>>points[i].r;
-        cin>>points[i].c;
-        cin>>points[i].b;
+    int n,t;
+//    cin>>t;
+    int tot = 200000;
+    t = 2000;
+    cout<<t<<endl;
+    FOR(i,t){
+        prin(10,10);
     }
-
-    sort(points.begin(),points.end(),cmp);
-    long long ans = 0;
-    vector<Point> cur_points;
-    for(int mask = 1;mask < (1<<N); mask++){
-        cur_points.clear();
-        long long cur_ans = 0;
-        for(int i=0;i<N;i++){
-            if( mask&(1<<i) ){
-                cur_ans += points[i].b;
-                cur_points.pb(points[i]);
-            }
-        }
-        if(sorted(cur_points)){
-            ans = max(ans,cur_ans);
-        }
-    }
-    cout<<ans<<endl;
 }
-
 
 
 int main(){
-    READ("data/inputs/input0.txt");
-    WRITE("data/output_brute/output0.txt");
-    ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
-    int t;
-    cin>>t;
-    while(t--){
-        cerr<<t<<"\n";
-        solve();
+
+
+    FOR(i,10){
+
+        int num = 60 + i +1;
+        string str = to_string(num);
+        string fname = "data/inputs/input" + str + ".txt";
+        FILE * ff = freopen(fname.c_str(),"w",stdout);
+        int t=1;
+    //    cin>>t;
+        while(t--){
+            solve();
+        }
+        fclose(ff);
     }
+//    ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     return 0;
 }
+
+/*
+54949306165527
+55106376486760
+
+*/
+
 
